@@ -1,11 +1,23 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
+import ButtonBase from '@components/Button/ButtonBase';
+import { logIn } from '@store/slices/auth';
+import { useDispatch } from 'react-redux';
 
 const LoginScreen = () => {
+  const dispatch = useDispatch();
+
+  const onPress = () => {
+    dispatch(logIn());
+  };
+
   return (
-    <View>
-      <Text>LOGIN SCREEN</Text>
-    </View>
+    <SafeAreaView>
+      <Text>Login Screen</Text>
+      <ButtonBase onPress={onPress}>
+        <Text>Log In</Text>
+      </ButtonBase>
+    </SafeAreaView>
   );
 };
 

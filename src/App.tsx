@@ -1,17 +1,28 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import store from '@store/index';
-import StackNavigator from '@navigation/index';
+import { StackNavigator, TabNavigator } from '@navigation/index';
+import { AppState } from '@store/index';
 
-const App = () => {
+const mapStateToProps = (state: AppState) => ({
+  loggedIn: state.auth.loggedIn
+});
+
+type Props = ReturnType<typeof mapStateToProps>;
+
+const App = ({ loggedIn }: Props) => {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <StackNavigator />
-      </NavigationContainer>
-    </Provider>
+    <NavigationContainer>
+      {loggedIn ? <TabNavigator /> : <StackNavigator />}
+    </NavigationContainer>
   );
 };
 
-export default App;
+const ConnectedApp = connect(mapStateToProps)(App);
+
+export default () => (
+  <Provider store={store}>
+    <ConnectedApp />
+  </Provider>
+);

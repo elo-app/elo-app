@@ -1,10 +1,18 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  getDefaultMiddleware,
+  combineReducers
+} from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import { reducer as exampleReducer } from '@store/exampleSlice';
+import authReducer from '@store/slices/auth';
 
 const reducer = {
-  example: exampleReducer,
+  auth: authReducer
 };
+
+const appReducer = combineReducers(reducer);
+
+export type AppState = ReturnType<typeof appReducer>;
 
 const sageMiddleware = createSagaMiddleware();
 
@@ -12,7 +20,7 @@ const middleware = [...getDefaultMiddleware({ thunk: false }), sageMiddleware];
 
 const store = configureStore({
   reducer,
-  middleware,
+  middleware
 });
 
 export default store;
